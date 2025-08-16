@@ -11,6 +11,7 @@ import logging
 import pickle
 import schwab
 import time
+import urllib
 import warnings
 
 from schwab.orders.generic import OrderBuilder
@@ -471,6 +472,9 @@ class BaseClient(EnumEnforcer):
         else:
             params = {}
 
+        symbol = symbol.replace('.', '/')
+        symbol = symbol.replace('-', '/')
+        symbol = urllib.parse.quote_plus(symbol)
         path = '/marketdata/v1/{}/quotes'.format(symbol)
         return self._get_request(path, params)
 
